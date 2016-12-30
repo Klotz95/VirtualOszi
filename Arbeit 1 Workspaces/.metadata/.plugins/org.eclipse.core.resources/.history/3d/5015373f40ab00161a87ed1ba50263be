@@ -1,0 +1,1011 @@
+package Settings;
+
+
+import java.awt.image.BufferedImage;
+
+
+/**
+ * Created by tristan on 07/11/15.
+ */
+
+/*
+Nicht umgesetzte Menues:
+
+    Utility -> Hardware Selbstest, Panel Selbsttest, LAN Einstellungen, Anzeige Einstellung (Channel Farbe, Transparentz), DateiExplorer (Dateien Speichern/Laden)
+    Print -> Bild zum Drucker senden (Netzwerk)
+    Save/Recall -> Einstellungen Speichern/Laden
+    Help -> allgemeine hilfe, Spracheinstellung
+    Label -> Namen für Kanäle vergeben
+*/
+
+
+public enum Settings {
+    MULTIPLEXED_SCALE_1,
+    MULTIPLEXED_SCALE_2,
+    HORIZONTAL_POSITION_KNOB("0","s"),
+    HORIZONTAL_SCALE_KNOB("5","s"),
+    VC_SCALE_KNOB_ONE("5","V"),
+    VC_SCALE_KNOB_TWO("5","V"),
+    VC_SCALE_KNOB_THREE("5","V"),
+    VC_SCALE_KNOB_FOUR("5","V"),
+    VC_OFFSET_ONE("0","V"),
+    VC_OFFSET_TWO("0","V"),
+    VC_OFFSET_THREE("0","V"),
+    VC_OFFSET_FOUR("0","V"),
+    HORIZONTAL_SCALE_KNOB_FINE("true"),
+    VC_SCALE_KNOB_ONE_FINE("true"),
+    VC_SCALE_KNOB_TWO_FINE("true"),
+    VC_SCALE_KNOB_THREE_FINE("true"),
+    VC_SCALE_KNOB_FOUR_FINE("true"),
+    TRIGGER_LEVEL,
+    TRIGGER_LEVEL_ONE("0","V"),
+    TRIGGER_LEVEL_TWO("0","V"),
+    TRIGGER_LEVEL_THREE("0","V"),
+    TRIGGER_LEVEL_FOUR("0","V"),
+    RUNSTOP("true"),
+    SINGLE("true"),
+    AUTOSCALE("true"),
+    WAVEGEN("true"),
+    ONE("false"),
+    TWO("false"),
+    THREE("false"),
+    FOUR("false"),
+    BACK("true"),
+    GRAY1,
+    GRAY2,
+    GRAY3,
+    GRAY4,
+    GRAY5,
+    GRAY6,
+    ENTRY,
+    HORIZ,
+    SEARCH,
+    NAVIGATION,
+    TRIGGER,
+    FORCETRIGGER,
+    MODECOUPLLING,
+    UTILLITY,
+    QUICKACTION,
+    ANALYZE,
+    CURSORS,
+    MEAS,
+    ACQUIRE,
+    SAVERECALL,
+    DISPLAY,
+    PRINT,
+    SERIAL,
+    DIGITAL,
+    _MATH,
+    REF,
+    DEFAULTSETUP,
+    LABEL,
+    HELP,
+    COURSOR,
+    CURSORX1("0"),
+    CURSORX2("0"),
+    CURSORY1("0"),
+    CURSORY2("0"),
+    FORWARD,
+    BACKWARD,
+    STOP,
+
+    //
+    INTENSITY("false"),
+    INTENSITY_VALUE("50", "%"),
+
+    LUPE,
+
+    /************* Button Datas *************/
+
+    /*
+    MENU(0, "Menu", new String[] {
+        "",
+    }, new Settings[] {
+
+    }),
+     */
+
+            //CHannel buttons doppelt -> Settings group
+            //Back geht nicht
+
+    /* ##################################### Trigger menu ##################################### */
+    A_HELP(ButtonType.BUTTON_ARRAY),
+    A_HELP_LANGUAGE(0, new String[] {"Deutsch", "English"}, null),        
+
+    
+    A_SOURCE(ButtonType.BUTTON_ARRAY),
+    CHANNEL_TRIG_FLANK(1, "Bereit A.", new String[] {
+            "1", "2", "3", "4"
+    }, null),
+    FLANK_A(2, "Flanke A", new String[] {
+            "Ansteigend", "Absteigend"
+    }, null),
+    TRIGGER_B(4, "Trigger B", new String[] {
+            "1", "2", "3", "4"
+    }, null),
+    FLANK_B(5, "Flanke B", new String[] {
+            "Ansteigend", "Absteigend"
+    }, null),
+    
+
+
+    A_FLANKFLANK(ButtonType.BUTTON_ARRAY),
+    SOURCE(1, "Quellen", A_SOURCE),
+    DELAY(2, "Verzög.", "0", "s"),
+    FLANK_COUNT(3, "Nte Flanke B", "1", ""),
+
+
+    A_PULS(ButtonType.BUTTON_ARRAY),
+    CHANNEL_PULS(1, "Kanal", new String[] {
+            "1", "2", "3", "4"
+    }, null),
+    POL(2, WaveForms.SQUARE, WaveForms.EMPTY, WaveForms.SQUARE_TURNED, "SQUARE"),
+    QUALIFIER(3, WaveForms.RightArrow, WaveForms.LeftArrow, WaveForms.X, WaveForms.RightArrow.name()),
+    //<> fehlt als button
+
+
+    A_BITMODEL(ButtonType.BUTTON_ARRAY),
+    QUALIFIER_BIT(1, "Qualifizierer", new String[] {
+            "Eingeben", "<", ">", "Zeit�berschr.", ">< (Im Bereich)", "<> (Au�erhalb des Ber.)"
+    }, null),
+    //nicht null!!!
+    CHANNEL_BIT(2, "Kanal", new String[] {
+            "1", "2", "3", "4"
+    }, null),
+    BITMODEL(3, "Bitmuster", new String[] {
+        "0", "1", "X"
+    }, null),
+
+
+    A_SET_ALL(ButtonType.BUTTON_ARRAY),
+
+
+    A_ODER(ButtonType.BUTTON_ARRAY),
+    CHANNEL_ODER(1, "Kanal", new String[] {
+            "1", "2", "3", "4"
+    }, null),
+    FLANK_ODER(2, "Flanke", new String[] {
+            "Ansteigend", "Abfallend", "Entweder", "Belibig"
+    }, null),
+    SET_ALL_FLANKS(3, "alle Flanken einst.", A_SET_ALL),
+
+
+    A_RISE_DOWN(ButtonType.BUTTON_ARRAY),
+    CHANNEL_RISE_DOWN(1, "Kanal", new String[] {
+            "1", "2", "3", "4"
+    }, null),
+    FLANK_RISE_DOWN(2, WaveForms.UpArrow, WaveForms.EMPTY, WaveForms.DownArrow, WaveForms.UpArrow.name()),
+    TRIG_LEVEL(3, "Pegel ausw.", new String[] {
+            "Hoch", "Niedrig"
+    }, null),
+    TIME_CHANGE_FLANK_RISE_DOWN(4, WaveForms.RightArrow, WaveForms.EMPTY, WaveForms.LeftArrow, WaveForms.RightArrow.name()),
+    TIME(5, "Zeit", "20", "s"),
+
+
+    A_FLANK_BURST(ButtonType.BUTTON_ARRAY),
+    CHANNEL_FLANK_BURST(1, "Kanal", new String[] {
+            "1", "2", "3", "4"
+    }, null),
+    FLANK_BURST(2, "Flanke", new String[] {
+            "Ansteigend", "Abfallend"
+    }, null),
+    INACTIVE(3, "Inativ", "500", "s"),
+    FLANK_COUNT_BURST(4, "Flanke", "1", ""),
+
+
+    A_IMPULSE_LOW(ButtonType.BUTTON_ARRAY),
+    CHANNEL_IMPULSE_LOW(1, "Kanal", new String[] {
+            "1", "2", "3", "4"
+    }, null),
+    POLARITY_IMPULSE_LOW(2, "Polarität", new String[] {
+        "positivier niedriger Impuls", "negativer niedriger Impuls", "positivie oder negative niedrige Impulse"
+    }, null),
+    TRIG_LEVEL_IMPULSE(3, "Pegel ausw.", new String[] {
+            "Hoch", "Niedrig"
+    }, null),
+    QUALIFIER_IMPULSE(4, "Qualifizierer", new String[] {
+            "Keine", "<", ">"
+    }, null),
+    TIME_IMPULSE(5, "Zeit", "20", "s"),
+
+
+    A_SETUP_AND_HOLD(ButtonType.BUTTON_ARRAY),
+    TAKT_SETUP(1, "Takt", new String[] {
+            "1", "2", "3", "4"
+    }, null),
+    RISE_DOWN_SETUP_HOLD(2, WaveForms.UpArrow, WaveForms.EMPTY, WaveForms.DownArrow, WaveForms.UpArrow.name()),
+    DATA_CHANNEL(3, "Daten", new String[] {
+            "1", "2", "3", "4"
+    }, null),
+    SETUP_TIME(4, "<Setup", "2", "s"),
+    HOLD_TIME(5, "<Halten", "2", "s"),
+
+
+    A_VIDEO_SETTINGS(ButtonType.BUTTON_ARRAY),
+    TV_NORM(1, "NORM", new String[] {
+            "NTSC", "PAL", "PAL-M", "SECAM"
+    }, null),
+//PUSH VALUE_BUTTON
+    VIDOE_AUTO_SETUP(2, "Auto-Setup", A_SET_ALL),
+    TRIG_LINE_1(4, "Zeilednzahl", "1", ""),
+    TRIG_LINE_2(4, "Zeilendfdfzahl", "314", ""),
+    TRIG_LINE_CHANGE(4, "Zeiledfdfnzahl", "1", ""),
+//BUttons werden nicht richtig gesetzt
+    VIDEO_MODE(3, "Modus", new String[] {
+            "Teilbild 1", "Teilbild 2", "Alle Teilbilder", "Alle Zeilen", "Zeile: Teilbild 1", "Zeile: Teilbild 2", "Zeile: Wechseln"
+    }, new Settings[] {
+            null, null, null, null, TRIG_LINE_1, TRIG_LINE_2, TRIG_LINE_CHANGE
+    }),
+    VIDEO_HOLDOFF(5, "Teildbild-Holdoff", "0", "flds"),
+
+
+    A_VIDEO(ButtonType.BUTTON_ARRAY),
+    CHANNEL_VIDEO(1, "Kanal", new String[] {
+            "1", "2", "3", "4"
+    }, null),
+    POLITARY_VIDEO(2, WaveForms.SQUARE, WaveForms.EMPTY, WaveForms.SQUARE_TURNED, "SQUARE"),
+    SETTING_VIDEO(3, "Einstell.", A_VIDEO_SETTINGS),
+
+
+    A_USB(ButtonType.BUTTON_ARRAY),
+    USB_TRIG(1, "Triggern an:", new String[] {
+            "SOP Start des Pakets", "EOP Ende des Pakets", "RC Zurücksetzten abgeschlossen", "Aussetzten beginnen", "Aussetzten beenden"
+    }, null),
+    USB_SPEED(2, "Speed", new String[] {
+            "Niedrige Geschwindikeit (1.5 Mb/s)", "Hohe Geschwindikeit (12 Mb/s)"
+    }, null),
+    USB_D_POS(3, "D+", new String[] {
+            "1", "2", "3", "4", "Extern"
+    }, null),
+    USB_D_NEG(4, "D-", new String[] {
+            "1", "2", "3", "4", "Extern"
+    }, null),
+
+
+    //Trigger menu
+    A_TRIGGER(ButtonType.BUTTON_ARRAY),
+
+    TRIG_TYPE(0, "Triggertyp", new String[] {
+            "Flanke", "Flanke dann Flanke", "Pulsbreite", "Bitmuster", "ODER", "Anstiegs-/Abfallzeit", "Nte Flanke Burst", "Niedriger Impuls", "Setup und Halten", "Video", "USB"
+    }, new Settings[] {
+            A_TRIGGER, A_FLANKFLANK, A_PULS, A_BITMODEL, A_ODER, A_RISE_DOWN, A_FLANK_BURST, A_IMPULSE_LOW, A_SETUP_AND_HOLD, A_VIDEO, A_USB
+    }),
+    CHANNEL(1, "Kanal", new String[] {
+            "1", "2", "3", "4", "Extern", "Netz", "Wellenf.-Gen", "Wellenf.-Gen MOD (FSK/FM)"
+    }, null),
+    FLANK(2, "Flanke", new String[] {
+            WaveForms.UpArrow.getSymbol() + " (Ansteigend)", WaveForms.DownArrow.getSymbol() + " (Abfallend)", WaveForms.UpDownArrowDouble.getSymbol() + " (Wechselnd)", WaveForms.UpDownArrow.getSymbol() + " (Entweder)"
+    }, null),
+
+
+
+    /* ##################################### Channels menu ##################################### */
+
+    A_CHANNEL_MENU_PROBE_1(ButtonType.BUTTON_ARRAY),
+    UNIT_CHANNEL_1(0, "Einheiten", new String[] {
+            "Volt", "Amp."
+    }, null),
+    PROBE_RATIO_DB_1(1, "Tastkopf", new String[] {
+            "Dezibel", "Verhältnis"
+    }, null),
+    SKEW_1(3, "Sekw", "0", "s"),
+
+
+    A_CHANNEL_MENU_1(ButtonType.BUTTON_ARRAY),
+    COUPLING_CHANNEL_1(0, "Kopplung", new String[] {
+            "DC", "AC"
+    }, null),
+    IMPEDANCE_1(1, "Impedanz", new String[] {
+            "50 Ohm", "1M Ohm"
+    }, null),
+    BW_LIMIT_1(2, "BW-Begr.", "false"),
+    FINE_1(3, "Fein", "false"),
+    INVERT_1(4, "Invertieren", "false"),
+    PROBE_1(5, "Tastkopf", A_CHANNEL_MENU_PROBE_1),
+
+
+    A_CHANNEL_MENU_PROBE_2(ButtonType.BUTTON_ARRAY),
+    UNIT_CHANNEL_2(0, "Einheiten", new String[] {
+            "Volt", "Amp."
+    }, null),
+    PROBE_RATIO_DB_2(1, "Tastkopf", new String[] {
+            "Dezibel", "Verhältnis"
+    }, null),
+    SKEW_2(3, "Sekw", "0", "s"),
+
+
+    A_CHANNEL_MENU_2(ButtonType.BUTTON_ARRAY),
+    COUPLING_CHANNEL_2(0, "Kopplung", new String[] {
+            "DC", "AC"
+    }, null),
+    IMPEDANCE_2(1, "Impedanz", new String[] {
+            "50 Ohm", "1M Ohm"
+    }, null),
+    BW_LIMIT_2(2, "BW-Begr.", "false"),
+    FINE_2(3, "Fein", "false"),
+    INVERT_2(4, "Invertieren", "false"),
+    PROBE_2(5, "Tastkopf", A_CHANNEL_MENU_PROBE_2),
+
+
+    A_CHANNEL_MENU_PROBE_3(ButtonType.BUTTON_ARRAY),
+    UNIT_CHANNEL_3(0, "Einheiten", new String[] {
+            "Volt", "Amp."
+    }, null),
+    PROBE_RATIO_DB_3(1, "Tastkopf", new String[] {
+            "Dezibel", "Verhältnis"
+    }, null),
+    SKEW_3(3, "Sekw", "0", "s"),
+
+
+    A_CHANNEL_MENU_3(ButtonType.BUTTON_ARRAY),
+    COUPLING_CHANNEL_3(0, "Kopplung", new String[] {
+            "DC", "AC"
+    }, null),
+    IMPEDANCE_3(1, "Impedanz", new String[] {
+            "50 Ohm", "1M Ohm"
+    }, null),
+    BW_LIMIT_3(2, "BW-Begr.", "false"),
+    FINE_3(3, "Fein", "false"),
+    INVERT_3(4, "Invertieren", "false"),
+    PROBE_3(5, "Tastkopf", A_CHANNEL_MENU_PROBE_3),
+
+
+    A_CHANNEL_MENU_PROBE_4(ButtonType.BUTTON_ARRAY),
+    UNIT_CHANNEL_4(0, "Einheiten", new String[] {
+            "Volt", "Amp."
+    }, null),
+    PROBE_RATIO_DB_4(1, "Tastkopf", new String[] {
+            "Dezibel", "Verhältnis"
+    }, null),
+    SKEW_4(3, "Sekw", "0", "s"),
+
+
+    A_CHANNEL_MENU_4(ButtonType.BUTTON_ARRAY),
+    COUPLING_CHANNEL_4(0, "Kopplung", new String[] {
+            "DC", "AC"
+    }, null),
+    IMPEDANCE_4(1, "Impedanz", new String[] {
+            "50 Ohm", "1M Ohm"
+    }, null),
+    BW_LIMIT_4(2, "BW-Begr.", "false"),
+    FINE_4(3, "Fein", "false"),
+    INVERT_4(4, "Invertieren", "false"),
+    PROBE_4(5, "Tastkopf", A_CHANNEL_MENU_PROBE_4),
+
+    /* ##################################### Mode Coupling menu ##################################### */
+
+    A_EXTERN_TRIG(ButtonType.BUTTON_ARRAY),
+    UNIT_EXT_TRIG(0, "Einheiten", new String[] {
+            "Volt", "Amp."
+    }, null),
+    RATIO_DB_EXT_TRIG(1, "Tastkopf", new String[] {
+            "Dezibel", "Verhältnis"
+    }, null),
+
+
+    A_MODE_COUPLING(ButtonType.BUTTON_ARRAY),
+    MODE_COUPLING(0, "Mode", new String[] {
+            "Auto", "Normal"
+    }, null),
+    COUPLING(1, "Koppling", new String[] {
+            "DC", "AC", "NF-Unterdrückung", "TV"
+    }, null),
+    NOISE_CANCELLING(2, "Rauschunterdr.", "false"),
+    HF_CANCELLING(3,"HF-Unterdr.", "false"),
+    HOLDOFF_COUPLNG(4, "Holdoff", "0", "s"),
+    EXT_TRIG(5, "Extern", A_EXTERN_TRIG),
+
+
+
+    /* ##################################### Meas menu ##################################### */
+
+    A_MEAS_THRESHOLDS_TYPE_PERCENT_1(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_THRRESHOLD_LOWER_PERCENT_1(3, "Unten", "10", "%"),
+    MEAS_THRRESHOLD_MIDLE_PERCENT_1(4, "Mitte", "50", "%"),
+    MEAS_THRRESHOLD_UPPER_PERCENT_1(5, "Oben", "90", "%"),
+
+    A_MEAS_THRESHOLDS_TYPE_ABSOLUTE_1(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_THRRESHOLD_LOWER_ABSOLUTE_1(3, "Unten", "0.800", "V"),
+    MEAS_THRRESHOLD_MIDLE_ABSOLUTE_1(4, "Mitte", "1.2", "V"),
+    MEAS_THRRESHOLD_UPPER_ABSOLUTE_1(5, "Oben", "1.5", "V"),
+
+    A_MEAS_SET_TYPE_MENU_1(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_SET_TYPE_1(2, "Typ", new String[] {
+            "Prozent", "Absolut"
+    }, new Settings[]{
+            A_MEAS_THRESHOLDS_TYPE_PERCENT_1, A_MEAS_THRESHOLDS_TYPE_ABSOLUTE_1
+    }),
+
+
+    A_MEAS_THRESHOLDS_TYPE_PERCENT_2(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_THRRESHOLD_LOWER_PERCENT_2(3, "Unten", "10", "%"),
+    MEAS_THRRESHOLD_MIDLE_PERCENT_2(4, "Mitte", "50", "%"),
+    MEAS_THRRESHOLD_UPPER_PERCENT_2(5, "Oben", "90", "%"),
+
+    A_MEAS_THRESHOLDS_TYPE_ABSOLUTE_2(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_THRRESHOLD_LOWER_ABSOLUTE_2(3, "Unten", "0.800", "V"),
+    MEAS_THRRESHOLD_MIDLE_ABSOLUTE_2(4, "Mitte", "1.2", "V"),
+    MEAS_THRRESHOLD_UPPER_ABSOLUTE_2(5, "Oben", "1.5", "V"),
+
+    A_MEAS_SET_TYPE_MENU_2(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_SET_TYPE_2(2, "Typ", new String[] {
+            "Prozent", "Absolut"
+    }, new Settings[]{
+            A_MEAS_THRESHOLDS_TYPE_PERCENT_2, A_MEAS_THRESHOLDS_TYPE_ABSOLUTE_2
+    }),
+    
+
+    A_MEAS_THRESHOLDS_TYPE_PERCENT_3(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_THRRESHOLD_LOWER_PERCENT_3(3, "Unten", "10", "%"),
+    MEAS_THRRESHOLD_MIDLE_PERCENT_3(4, "Mitte", "50", "%"),
+    MEAS_THRRESHOLD_UPPER_PERCENT_3(5, "Oben", "90", "%"),
+
+    A_MEAS_THRESHOLDS_TYPE_ABSOLUTE_3(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_THRRESHOLD_LOWER_ABSOLUTE_3(3, "Unten", "0.800", "V"),
+    MEAS_THRRESHOLD_MIDLE_ABSOLUTE_3(4, "Mitte", "1.2", "V"),
+    MEAS_THRRESHOLD_UPPER_ABSOLUTE_3(5, "Oben", "1.5", "V"),
+
+    A_MEAS_SET_TYPE_MENU_3(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_SET_TYPE_3(2, "Typ", new String[] {
+            "Prozent", "Absolut"
+    }, new Settings[]{
+            A_MEAS_THRESHOLDS_TYPE_PERCENT_3, A_MEAS_THRESHOLDS_TYPE_ABSOLUTE_3
+    }),
+
+
+    A_MEAS_THRESHOLDS_TYPE_PERCENT_4(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_THRRESHOLD_LOWER_PERCENT_4(3, "Unten", "10", "%"),
+    MEAS_THRRESHOLD_MIDLE_PERCENT_4(4, "Mitte", "50", "%"),
+    MEAS_THRRESHOLD_UPPER_PERCENT_4(5, "Oben", "90", "%"),
+
+    A_MEAS_THRESHOLDS_TYPE_ABSOLUTE_4(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_THRRESHOLD_LOWER_ABSOLUTE_4(3, "Unten", "0.800", "V"),
+    MEAS_THRRESHOLD_MIDLE_ABSOLUTE_4(4, "Mitte", "1.2", "V"),
+    MEAS_THRRESHOLD_UPPER_ABSOLUTE_4(5, "Oben", "1.5", "V"),
+
+    A_MEAS_SET_TYPE_MENU_4(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_SET_TYPE_4(2, "Typ", new String[] {
+            "Prozent", "Absolut"
+    }, new Settings[]{
+            A_MEAS_THRESHOLDS_TYPE_PERCENT_4, A_MEAS_THRESHOLDS_TYPE_ABSOLUTE_4
+    }),
+
+
+    A_MEAS_THRESHOLDS_TYPE_PERCENT_MATH(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_THRRESHOLD_LOWER_PERCENT_MATH(3, "Unten", "10", "%"),
+    MEAS_THRRESHOLD_MIDLE_PERCENT_MATH(4, "Mitte", "50", "%"),
+    MEAS_THRRESHOLD_UPPER_PERCENT_MATH(5, "Oben", "90", "%"),
+
+    A_MEAS_THRESHOLDS_TYPE_ABSOLUTE_MATH(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_THRRESHOLD_LOWER_ABSOLUTE_MATH(3, "Unten", "0.800", "V"),
+    MEAS_THRRESHOLD_MIDLE_ABSOLUTE_MATH(4, "Mitte", "1.2", "V"),
+    MEAS_THRRESHOLD_UPPER_ABSOLUTE_MATH(5, "Oben", "1.5", "V"),
+
+    A_MEAS_SET_TYPE_MENU_MATH(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_SET_TYPE_MATH(2, "Typ", new String[] {
+            "Prozent", "Absolut"
+    }, new Settings[]{
+            A_MEAS_THRESHOLDS_TYPE_PERCENT_MATH, A_MEAS_THRESHOLDS_TYPE_ABSOLUTE_MATH
+    }),
+
+
+    A_MEAS_THRESHOLDS_TYPE_PERCENT_REF1(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_THRRESHOLD_LOWER_PERCENT_REF1(3, "Unten", "10", "%"),
+    MEAS_THRRESHOLD_MIDLE_PERCENT_REF1(4, "Mitte", "50", "%"),
+    MEAS_THRRESHOLD_UPPER_PERCENT_REF1(5, "Oben", "90", "%"),
+
+    A_MEAS_THRESHOLDS_TYPE_ABSOLUTE_REF1(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_THRRESHOLD_LOWER_ABSOLUTE_REF1(3, "Unten", "0.800", "V"),
+    MEAS_THRRESHOLD_MIDLE_ABSOLUTE_REF1(4, "Mitte", "1.2", "V"),
+    MEAS_THRRESHOLD_UPPER_ABSOLUTE_REF1(5, "Oben", "1.5", "V"),
+
+    A_MEAS_SET_TYPE_MENU_REF1(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_SET_TYPE_REF1(2, "Typ", new String[] {
+            "Prozent", "Absolut"
+    }, new Settings[]{
+            A_MEAS_THRESHOLDS_TYPE_PERCENT_REF1, A_MEAS_THRESHOLDS_TYPE_ABSOLUTE_REF1
+    }),
+
+
+    A_MEAS_THRESHOLDS_TYPE_PERCENT_REF2(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_THRRESHOLD_LOWER_PERCENT_REF2(3, "Unten", "10", "%"),
+    MEAS_THRRESHOLD_MIDLE_PERCENT_REF2(4, "Mitte", "50", "%"),
+    MEAS_THRRESHOLD_UPPER_PERCENT_REF2(5, "Oben", "90", "%"),
+
+    A_MEAS_THRESHOLDS_TYPE_ABSOLUTE_REF2(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_THRRESHOLD_LOWER_ABSOLUTE_REF2(3, "Unten", "0.800", "V"),
+    MEAS_THRRESHOLD_MIDLE_ABSOLUTE_REF2(4, "Mitte", "1.2", "V"),
+    MEAS_THRRESHOLD_UPPER_ABSOLUTE_REF2(5, "Oben", "1.5", "V"),
+
+    A_MEAS_SET_TYPE_MENU_REF2(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    MEAS_SET_TYPE_REF2(2, "Typ", new String[] {
+            "Prozent", "Absolut"
+    }, new Settings[]{
+            A_MEAS_THRESHOLDS_TYPE_PERCENT_REF2, A_MEAS_THRESHOLDS_TYPE_ABSOLUTE_REF2
+    }),
+    
+    
+    A_MEAS_THRESHOLDS(ButtonType.BUTTON_ARRAY),
+    MEAS_SET_THRESHOLDS(0, "Kanal", new String[] {
+            "1", "2", "3", "4", "Math.: f(t)", "Ref 1", "Ref 2"
+    }, new Settings[]{
+            A_MEAS_SET_TYPE_MENU_1, A_MEAS_SET_TYPE_MENU_2, A_MEAS_SET_TYPE_MENU_3, A_MEAS_SET_TYPE_MENU_4, A_MEAS_SET_TYPE_MENU_MATH, A_MEAS_SET_TYPE_MENU_REF1, A_MEAS_SET_TYPE_MENU_REF2
+    }),
+
+
+    MEAS_CHANNEL_ONE(0, "Kanal 1", new String[] {
+            "1", "2", "3", "4", "Math.: f(t)", "Ref 1", "Ref 2"
+        }, null),
+    A_MEAS_SETTINGS(ButtonType.BUTTON_ARRAY),
+    MEAS_EDGE_ONE(1, WaveForms.UpArrow, WaveForms.EMPTY, WaveForms.DownArrow, WaveForms.UpArrow.name()),
+    MEAS_CHANNEL_TWO(2, "Kanal 2", new String[] {
+            "1", "2", "3", "4", "Math.: f(t)", "Ref 1", "Ref 2"
+        }, null),
+    MEAS_EDGE_TWO(3, WaveForms.UpArrow, WaveForms.EMPTY, WaveForms.DownArrow, WaveForms.UpArrow.name()),
+    MEAS_THRESHOLDS(4, "Schwellenwerte", A_MEAS_THRESHOLDS),
+    MEAS_WINDOW(5, "Messfenster", new String[] {
+        "Auto-Ausw.", "Primär", "Zoom"
+    }, null),
+
+
+    A_MEAS_DEL(ButtonType.BUTTON_ARRAY),
+    MEAS_DELL_ONE(0, "Mess. löschen 1"),
+    MEAS_DELL_TWO(1, "Mess. löschen 2"),
+    MEAS_DELL_THREE(2, "Mess. löschen 3"),
+    MEAS_DELL_FOUR(3, "Mess. löschen 4"),
+    MEAS_DELL_ALL(4, "Löschen\nAlle"),
+
+
+    A_MEAS_STAT(ButtonType.BUTTON_ARRAY),
+    MEAS_DISPLAY(0, "Anzeige ein", "false"),
+    MEAS_RESET(1, "Zurüksetzen\nStatisiken"),
+    MEAS_DISPLAY_TRANSPARENT(2, "Transparent", "false"),
+    MEAS_REAL(3, "Relativ ", "false"),
+    MEAS_MAX_COUNT(4, "Max. Zählung", "2", ""),
+
+
+    A_MEAS_MENU(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    CHANNEL_MEAS(0, "Kanal", new String[] {
+            "1", "2", "3", "4", "Math.: f(t)", "Ref 1", "Ref 2"
+    }, null),
+    MEAS_TYPE(1, "Typ", new String[] {
+            "Snapshot All", "Spitze-Spitze", "Maximum", "Minimum", "Amplitude", "Oben", "Basis", "Überschwingen", "Vorschwingen", "Mittelwert - N Zyklen", "Mittelwert - Vollbild", "DC-RMS - N Zyklen", "DC-RMS - Vollbild", "AC-RMS - N Zyklen", "AC-RMS - Vollbild", "Verh. - N Zyklen", "Verh. - Vollbild", "Periode", "Frequenz", "Zähler", "+Breite", "-Breite", "Burst-Breite", "Arbeitszyklus", "Anstiegszeit", "Abstiegszeit", "Verzögerung", "Phase", "X bei Min. Y", "X bei Max. Y", "Anz. positive Impulse", "Anz. negative Impulse", "Anz. steigende Flanken", "Anz. fallende Flanken", "Bereich - N Zyklen", "Bereich - Vollbild"
+    }, null),
+    //Click button
+    ADD_MEASSURE(2, "Hinzufügen\nMessung"),
+
+    MEAS_SETTINGS(3, "Einstellungen", A_MEAS_SETTINGS),
+    MEAS_DEL(4, "Mess. löschen", A_MEAS_DEL),
+    MEAS_STAT(5, "Statistiken", A_MEAS_STAT),
+
+
+    /* ##################################### Cursor menu ##################################### */
+
+    A_CURSOR_UNIT_MENU_X_CURSOR_GRAD(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    CURSOR_UNIT_MENU_X_CURSOR_GRAD(1, "X-Cursor verw.\nAls 360°"),
+
+    A_CURSOR_UNIT_MENU_X_CURSOR_PER(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    CURSOR_UNIT_MENU_X_CURSOR_PER(1, "X-Cursor verw.\nAls 100%"),
+
+    A_CURSOR_UNIT_MENU_Y_CURSOR_PER(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    CURSOR_UNIT_MENU_Y_CURSOR_PER(3, "Y-Cursor verw.\nAls 100%"),
+
+    A_CURSOR_UNIT_MENU(ButtonType.BUTTON_ARRAY),
+    CURSORS_MEUNU_X_UNIT(0, "X-Einheiten", new String[] {
+            "Sekunden (s)", "Hz (1/s)", "Phase (°)", "Verh. (%)"
+    }, new Settings[]{
+            A_CURSOR_UNIT_MENU, A_CURSOR_UNIT_MENU, A_CURSOR_UNIT_MENU_X_CURSOR_GRAD, A_CURSOR_UNIT_MENU_X_CURSOR_PER
+    }),
+    CURSORS_MEUNU_Y_UNIT(2, "Y-Einheiten", new String[] {
+            "Basis", "Verh. (%)"
+    }, new Settings[]{
+            A_CURSOR_UNIT_MENU, A_CURSOR_UNIT_MENU_Y_CURSOR_PER
+    }),
+
+
+    A_CURSOR_MENU_SIG(ButtonType.BUTTON_ARRAY),
+    X1_CHANNEL_SIG(1, "X1-Kanal", new String[] {
+            "1", "2", "3", "4", "Math.: f(t)", "Ref 1", "Ref 2"
+    }, null),
+    X2_CHANNEL_SIG(2, "X2-Kanal", new String[] {
+            "1", "2", "3", "4", "Math.: f(t)", "Ref 1", "Ref 2"
+    }, null),
+    SIG_CURSOR_TYPE(3, "Cursor", new String[] {
+            "X1", "X2", "X1-X2-verknüpft"
+    }, null),
+    CURSOR_SIG_UNIT(4, "Einh.", A_CURSOR_UNIT_MENU),
+
+
+    A_CURSOR_MENU_BIN(ButtonType.BUTTON_ARRAY),
+    BIN_CURSOR_TYPE(2, "Cursor", new String[] {
+            "X1", "X2", "X1-X2-verknüpft"
+    }, null),
+    CURSOR_BIN_UNIT(3, "Einh.", A_CURSOR_UNIT_MENU),
+
+
+    A_CURSOR_MENU_HEX(ButtonType.BUTTON_ARRAY),
+    HEX_CURSOR_TYPE(2, "Cursor", new String[] {
+            "X1", "X2", "X1-X2-verknüpft"
+    }, null),
+    CURSOR_HEX_UNIT(3, "Einh.", A_CURSOR_UNIT_MENU),
+
+
+    A_CURSORS_MEUNU(ButtonType.BUTTON_ARRAY),
+    CURSOR_MODE(0, "Modus", new String[] {
+            "Manuell", "Signalverfolgung", "Binär", "Hex"
+    }, new Settings[] {
+            A_CURSORS_MEUNU, A_CURSOR_MENU_SIG, A_CURSOR_MENU_BIN, A_CURSOR_MENU_HEX
+    }),
+    CURSOR_CHANNEL(1, "Kanal", new String[] {
+        "1", "2", "3", "4", "Math.: f(t)", "Ref 1", "Ref 2"
+    }, null),
+    CURSOR_TYPE(2, "Cursor", new String[] {
+            "X1", "X2", "X1-X2-verknüpft", "Y1", "Y2", "Y1-Y2-verknüpft"
+    }, null),
+    CURSOR_UNIT(3, "Einh.", A_CURSOR_UNIT_MENU),
+
+
+
+
+    /* ##################################### Acquire menu ##################################### */
+
+    A_ACQUIRE_MIDLE(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    ACQUIRE_MIDLE(1, "Anz. Mittelw.", "2", ""),
+
+    A_ACQUIRE_MENU(ButtonType.BUTTON_ARRAY),
+    ACQUIRE_MOD(0, "Erf.-Modus", new String[] {
+            "Normal", "Spitze Erkennen", "Mittelwert", "Hohe Auflösung"
+    }, new Settings[] {
+            A_ACQUIRE_MENU, A_ACQUIRE_MENU, A_ACQUIRE_MIDLE, A_ACQUIRE_MENU
+    }),
+
+
+
+    /* ##################################### Analyse Menu ##################################### */
+
+    A_LIMIT_1(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    A_ANALYE_LIMIT_1(2, "Grenzwert", "0.0", "V"),
+
+    A_LIMIT_2(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    A_ANALYE_LIMIT_2(2, "Grenzwert", "0.0", "V"),
+
+    A_LIMIT_3(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    A_ANALYE_LIMIT_3(2, "Grenzwert", "0.0", "V"),
+
+    A_LIMIT_4(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    A_ANALYE_LIMIT_4(2, "Grenzwert", "0.0", "V"),
+
+    A_LIMIT_EXTERN(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    A_ANALYE_LIMIT_EXTERN(2, "Grenzwert", "0.0", "V"),
+
+    A_ANALYSE_MENU_TRIG(ButtonType.BUTTON_ARRAY),
+    A_ANALYSE_CHANNEL_TRIG(1, "Kanal", new String[] {
+        "1", "2", "3", "4", "Extern"
+    }, new Settings[] {
+            A_LIMIT_1, A_LIMIT_2, A_LIMIT_3, A_LIMIT_4, A_LIMIT_EXTERN
+    }),
+
+    A_ANALYSE_MENU_VALUE_MEASURE(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    //same settings as MEAS_SET_THRESHOLDS
+    A_ANALYSE_VALUE_MEASURE_MENU(1, "Kanal", new String[] {
+            "1", "2", "3", "4", "Math.: f(t)", "Ref 1", "Ref 2"
+    }, new Settings[]{
+            A_MEAS_SET_TYPE_MENU_1, A_MEAS_SET_TYPE_MENU_2, A_MEAS_SET_TYPE_MENU_3, A_MEAS_SET_TYPE_MENU_4, A_MEAS_SET_TYPE_MENU_MATH, A_MEAS_SET_TYPE_MENU_REF1, A_MEAS_SET_TYPE_MENU_REF2
+    }),
+
+    A_ANALYSE_MENU_VIDEO(ButtonType.BUTTON_ARRAY),
+    ANALYSE_VIDEO(1, "Kanal", new String[] {
+            "1", "2", "3", "4"
+    }, null),
+    ANALYSE_VIDEO_NORM(2, "Norm", new String[] {
+            "NTSC", "PAL", "PAL-M", "SECAM"
+    }, null),
+    ANALYSE_VIDEO_AUTO_SETUP(3, "Auto-Setup"),
+    ANALYSE_VIDEO_GRID_TYPE(4, "Gitter", new String[] {
+            "Voll", "mV", "IRE"
+    }, null),
+
+    A_ANALYSE(ButtonType.BUTTON_ARRAY),
+    ANALYSE_MENU(0, "Merkmale", new String[] {
+            "Triggerpegel", "Schwellenwerte für Messungen", "Video"
+    }, new Settings[] {
+            A_ANALYSE_MENU_TRIG, A_ANALYSE_MENU_VALUE_MEASURE, A_ANALYSE_MENU_VIDEO
+    }),
+    
+    A_SAVERECALL(ButtonType.BUTTON_ARRAY),
+    A_SAVERECALL_SET(0, "Save"),    
+    A_SAVERECALL_RECALL(1, "Recall"),
+
+    /* ##################################### Display Menu ##################################### */
+
+    A_DISPLAY_VAR_LIGHT_TIME(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    DISPLAY_VAR_LIGHT_TIME(1, "Zeit", "0", "s"),
+
+    A_DISPLAY_SET_WAVEFORM(ButtonType.BUTTON_ARRAY_NO_OVERWRITE),
+    A_DISPLAY_SET(1, "Erfassen\nWellenform"),
+
+    A_DISPLAY_MENU(ButtonType.BUTTON_ARRAY),
+    DISPLAY_MENU(0, "Persistence", new String[] {
+            "Aus", "Persistence", "Variable Nachleuchtdauer"
+    }, new Settings[] {
+            A_DISPLAY_SET_WAVEFORM, A_DISPLAY_MENU, A_DISPLAY_VAR_LIGHT_TIME
+    }),
+    DISPLAY_DEL_PER(2, "Löschen\nPersitence"),
+    DISPLAY_DEL_DISPLAY(3, "Löschen\nAnzeige"),
+    DISPLAY_GRID(4, "Gitter", new String[] {
+        "Voll", "mV", "IRE"
+    }, null),
+    DISPLAY_INTESITY(5, "Intesität", "0", "%"),
+
+
+
+
+    /* ##################################### Math Menu ##################################### */
+
+    A_MATH_OPERATOR_CHANNELS(ButtonType.BUTTON_ARRAY),
+    MATH_OPERATOR_C1(2, "Kanal", new String[] {
+            "1", "2", "3", "4"
+    }, null),
+    MATH_OPERATOR_C2(3, "Kanal", new String[] {
+            "1", "2", "3", "4"
+    }, null),
+
+    A_MATH_OPERATOR_D_DT(ButtonType.BUTTON_ARRAY),
+    MATH_OPERATOR_D_DT_C1(2, "Kanal", new String[] {
+            "1", "2", "3", "4", "g(t)"
+    }, null),
+
+    A_MATH_OPERATOR_INTEGRATE(ButtonType.BUTTON_ARRAY),
+    MATH_OPERATOR_INTEGRARE_C1(2, "Kanal", new String[] {
+            "1", "2", "3", "4"
+    }, null),
+    MATH_INTEGRATE_OFFSET(3, "Offset", "0.0", "V"),
+
+    A_MATH_OPERATOR_MORE(ButtonType.BUTTON_ARRAY),
+    A_MATH_OP_MORE(0, "Fenster", new String[] {
+            "Hanning", "Flache Oberseite", "Rechteckig", "Blackman Harris"
+    }, null),
+    A_MATH_OP_MORE_VERT(1,"Vertiklae Ein", new String[] {
+            "Decibels", "V RMS"
+    }, null),
+    A_MATH_OP_AUTO_SETUP(2, "Auto-Setup"),
+
+    A_MATH_OPERATOR_FFT(ButtonType.BUTTON_ARRAY),
+    MATH_OPERATOR_FFT_C1(2, "Kanal", new String[] {
+            "1", "2", "3", "4"
+    }, null),
+    MATH_OPERTATOR_FFT_SPAN(3,"Spanne", "0", "hz"),
+    MATH_OPERTATOR_FFT_MIDDLE(4," Mitte", "0", "hz"),
+    MATH_OPERTATOR_FFT_MORE(5, "Mehr FFT", A_MATH_OPERATOR_MORE),
+
+    A_MATH_OPERATOR_SQUARE(ButtonType.BUTTON_ARRAY),
+    MATH_OPERATOR_SQARE_C(2, "Kanal", new String[] {
+            "1", "2", "3", "4", "g(t)"
+    }, null),
+
+    A_MATH_OPERATOR_F(ButtonType.BUTTON_ARRAY),
+    MATH_OPERATOR_F(1, "Operator", new String[] {
+            "+", "-", "x", "/", "d/dt", "Inegrate", "FFT", "Square Root"
+    }, new Settings[] {
+            A_MATH_OPERATOR_CHANNELS, A_MATH_OPERATOR_CHANNELS, A_MATH_OPERATOR_CHANNELS, A_MATH_OPERATOR_CHANNELS, A_MATH_OPERATOR_D_DT, A_MATH_OPERATOR_INTEGRATE, A_MATH_OPERATOR_FFT, A_MATH_OPERATOR_SQUARE
+    }),
+
+    A_MATH_OPERATOR_G(ButtonType.BUTTON_ARRAY),
+    MATH_OPERATOR_G(1, "Operator", new String[] {
+            "+", "-", "x"
+    }, new Settings[] {
+            A_MATH_OPERATOR_CHANNELS, A_MATH_OPERATOR_CHANNELS, A_MATH_OPERATOR_CHANNELS
+    }),
+
+    A_MATH_MENU(ButtonType.BUTTON_ARRAY),
+    MATH_MENU(0, "Funktion", new String[] {
+            "f(t): angezeigt", "g(t): Intern"
+    }, new Settings[] {
+            A_MATH_OPERATOR_F, A_MATH_OPERATOR_G
+    }),
+
+
+    /* ##################################### Ref Menu ##################################### */
+
+    A_REF_MENU_R1(ButtonType.BUTTON_ARRAY),
+    REF_MENU_CHANNEL_R1(1, "Kanal", new String[] {
+            "1", "2", "3", "4", "Math: f(t)"
+    }, null),
+    REF_SAVE_R1(2, "Speicher\nin R1"),
+    REF_DEL_R1(3, "Löschen\nR1"),
+    REF_SKEW_R1(4, "Skew", "0.0", "s"),
+
+    A_REF_MENU_R2(ButtonType.BUTTON_ARRAY),
+    REF_MENU_CHANNEL_R2(1, "Kanal", new String[] {
+            "1", "2", "3", "4", "Math: f(t)"
+    }, null),
+    REF_SAVE_R2(2, "Speicher\nin R2"),
+    REF_DEL_R2(3, "Löschen\nR2"),
+    REF_SKEW_R2(4, "Skew", "0.0", "s"),
+
+    A_REF_MENU(ButtonType.BUTTON_ARRAY),
+    REF_MENU(0, "Ref. Anzeigen:", new String[] {
+        "R1", "R2"
+    }, new Settings[] {
+        A_REF_MENU_R1, A_REF_MENU_R2
+    }),
+
+
+    /* ##################################### Horiz Menu ##################################### */
+
+    A_HORIZ_NORMAL(ButtonType.BUTTON_ARRAY),
+    HORIZ_NORMAL_ZOOM(1, "Zoom", "false"),
+    HORIZ_NORMAL_FINE(4, "Fein", "false"),
+    HORIZ_NORMAL_TIME_REF(5, "Zeitref", new String[] {
+            "Links", "Mitte", "Rechts"
+    }, null),
+
+    A_HORIZ_XY(ButtonType.BUTTON_ARRAY),
+    HORIZ_XY_ZOOM(1, "Zoom", "false"),
+    HORIZ_XY_FINE(4, "Fein", "false"),
+    HORIZ_XY_TIME_REF(5, "Zeitref", new String[] {
+            "Links", "Mitte", "Rechts"
+    }, null),
+    
+    A_HORIZ_ROLL(ButtonType.BUTTON_ARRAY),
+    HORIZ_ROLL_ZOOM(1, "Zoom", "false"),
+    HORIZ_ROLL_FINE(4, "Fein", "false"),
+    HORIZ_ROLL_TIME_REF(5, "Zeitref", new String[] {
+            "Links", "Mitte", "Rechts"
+    }, null),
+
+    A_HORIZ(ButtonType.BUTTON_ARRAY),
+    HORIZ_TIME_MOD(0, "Zeimodus", new String[] {
+            "Normal", "XY", "Rollen"
+    }, new Settings[] {
+            A_HORIZ_NORMAL, A_HORIZ_XY, A_HORIZ_ROLL
+    }),
+
+
+
+    /* ##################################### Horiz Menu ##################################### */
+
+    A_NAVIGATE_SEARCH(ButtonType.BUTTON_ARRAY),
+    NAVIGATE_SEARCH_(1, "Ereignis", "0", "s"),
+
+    A_NAVIGATE(ButtonType.BUTTON_ARRAY),
+    NAVIGATE_MENU(0, "Navigieren", new String[] {
+            "Zeit", "Suchen"
+    }, new Settings[] {
+            A_NAVIGATE, A_NAVIGATE_SEARCH
+    });
+
+
+    /************* Button variables *************/
+	
+    public String headerText = "";
+
+    public boolean visible = true;
+    public boolean marked = false;
+    public boolean isSetting = true;
+    public boolean overwriteMenu = true;
+
+    public int buttonNo = 0;
+
+    public Settings buttonArrayId;
+    public Settings buttonArrayIds[];
+    
+    public String menuList[];
+
+    public WaveForms[] waves = new WaveForms[3];
+    public BufferedImage[] waveFormsImages = new BufferedImage[3];
+    public String[] checkSymbol = new String[3];
+
+    //???
+    public String settingGroup = "_";
+
+    private enum ButtonType{
+    	BUTTON_ARRAY,BUTTON_ARRAY_NO_OVERWRITE
+    }
+
+    /* Setting variables */
+    
+    private String setting;
+    private String unit;
+
+    /* Constructors */
+
+    Settings() {
+        this.isSetting = false; //?
+    }
+
+
+    //setting with unit
+    Settings(String setting, String unit) {
+    	this.setting = setting;
+    	this.unit = unit;
+    }
+
+
+    //setting without unit
+    Settings(String setting) {
+    	this.setting = setting;
+    }
+
+    //button array Id
+    Settings(ButtonType bId) {
+    	//??
+    }
+
+
+    //event button
+    Settings(int buttonNo, String headerText) {
+    	this.buttonNo = buttonNo;
+    }
+
+
+    //button with link to other buttons
+    Settings(int buttonNo, String headerText, Settings buttonArrayId) {
+    	this.buttonNo = buttonNo;
+    	this.headerText = headerText;
+    	this.buttonArrayId = buttonArrayId;
+    }
+
+
+    //button with header text and setting
+    Settings(int buttonNo, String headerText, String setting, String unit) {
+    	this.buttonNo = buttonNo;
+    	this.headerText = headerText;
+    	this.setting = setting;
+    	this.unit = unit;
+    }
+
+
+    //checkbutton
+    Settings(int buttonNo, String headerText, String setting) {
+    	this.buttonNo = buttonNo;
+    	this.headerText = headerText;
+    	this.setting = setting;
+     }
+
+
+    //menu button
+    Settings(int buttonNo, String headerText, String[] menuList, Settings[] buttonArrayIds) {
+    	this.buttonNo = buttonNo;
+    	this.headerText = headerText;
+    	this.menuList = menuList;
+    	this.buttonArrayIds = buttonArrayIds;
+    }
+
+    //menu button
+    Settings(int buttonNo, String[] menuList, Settings[] buttonArrayIds) {
+    	this.buttonNo = buttonNo;
+    	this.menuList = menuList;
+    	this.buttonArrayIds = buttonArrayIds;
+     }
+    
+    
+
+    //tripple check button
+    Settings(int buttonNo, WaveForms form1, WaveForms form2, WaveForms form3, String setting) {
+    	this.buttonNo = buttonNo;
+    	//rest??
+    }
+    
+    public String getInfo(){
+    	return null;
+    	
+    }
+    
+    public String getHeaderText(){
+    	return this.headerText;
+    }
+    
+    public int getButtonNo(){
+    	return this.buttonNo;
+    }
+    
+    public String getSettings(){
+    	return this.setting;	
+    }
+    
+    public String getUnit(){
+    	return this.unit;
+    }
+    
+}

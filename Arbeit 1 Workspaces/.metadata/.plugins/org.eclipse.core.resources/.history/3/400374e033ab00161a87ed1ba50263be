@@ -1,0 +1,51 @@
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+import Communication.Data2TCPSingelton;
+import Communication.TCPParameterClient;
+
+public class Main
+{
+    public static void main(String[] args)
+    {
+    	
+    	
+        JFrame frame = new JFrame("Beispiel JFrame");
+        frame.setSize(200,200);
+        
+        frame.add(new JLabel("Hallo"));
+        
+        frame.setVisible(true);
+        
+       
+        
+		final Thread d=(new Thread(TCPParameterClient.getInstance(), "ParameterClient"));
+		d.start();
+		
+		final Thread b=(new Thread(Data2TCPSingelton.getInstance(), "ThreadTCPDataSend"));
+		b.start();
+
+		
+        
+		frame.addWindowListener(new WindowAdapter()
+		{
+			@Override
+			public void windowClosing(WindowEvent e)
+			{
+				TCPParameterClient.getInstance().terminate();
+				Data2TCPSingelton.getInstance().terminate();
+				try {
+					//panel.test.cancel();
+					b.join();
+					d.join();
+					System.exit(0);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+    }
+}

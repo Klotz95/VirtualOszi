@@ -1,0 +1,102 @@
+package Communication;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+
+public class TCPParameterClient implements Runnable{
+
+	boolean running = true;
+	DataOutputStream outToServer;
+	BufferedReader inFromServer;
+
+	private static final class InstanceHolder {
+		static final TCPParameterClient INSTANCE = new TCPParameterClient();
+	}
+
+	private TCPParameterClient () {
+		super();
+	}
+
+	public static TCPParameterClient getInstance () {
+		return InstanceHolder.INSTANCE;
+	}
+
+	public void terminate() {
+		try {
+			running = false;
+			if(outToServer!=null) outToServer.close();
+			if(outToServer!=null) inFromServer.close();			  
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	    }	  
+
+	@Override
+	public void run() {
+		while(running) {
+			try {
+				Socket clientSocket = new Socket();
+				clientSocket.connect(new InetSocketAddress("localhost", 16790), 1000000000);
+				outToServer = new DataOutputStream(clientSocket.getOutputStream());
+				inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+				
+				String change="Deutsch";
+				boolean toogle=false;
+				String koppl1="DC";
+				String koppl2="AC";
+				
+				for(Settings.Settings settings : Settings.Settings.values() ){
+					if(settings.isSetting==true)
+						System.out.println("Einstellung: "+settings.name()+" = "+ settings.getInfo());
+				}
+				
+				while(running) {
+					if(change.equals("Deutsch")) change="English";
+					else change="Deutsch";
+					Thread.sleep(4000);
+					if(koppl1.equals("DC")) {koppl1="AC";koppl2="DC";}
+					else {koppl1="DC";koppl2="AC";}
+					
+					
+					outToServer.writeBytes("set:"+Settings.Settings.A_HELP_LANGUAGE+":"+change+"\n");
+					System.err.println(inFromServer.readLine());
+					
+					outToServer.writeBytes("set:"+Settings.Settings.RUNSTOP+":"+Boolean.toString(toogle)+"\n");
+					toogle=!toogle;
+					System.err.println(inFromServer.readLine());
+					
+					outToServer.writeBytes("set:"+Settings.Settings.COUPLING_CHANNEL_1+":"+koppl2+"\n");
+					System.err.println(inFromServer.readLine());
+					outToServer.writeBytes("set:"+Settings.Settings.COUPLING_CHANNEL_2+":"+koppl1+"\n");
+					System.err.println(inFromServer.readLine());
+					outToServer.writeBytes("set:"+Settings.Settings.COUPLING_CHANNEL_3+":"+koppl1+"\n");
+					System.err.println(inFromServer.readLine());
+					outToServer.writeBytes("set:"+Settings.Settings.COUPLING_CHANNEL_4+":"+koppl2+"\n");
+					System.err.println(inFromServer.readLine());
+					
+					
+				}
+				clientSocket.close();			
+			} catch (IOException | InterruptedException e) {
+				System.err.println("No parameter server found");
+				//e.printStackTrace();
+			}
+		}
+	}	
+
+	static public byte[] toByteArray(short input[]){
+
+		byte [] buffer = new byte[2*input.length];
+
+		int byte_index = 0;
+		for(int short_index = 0; short_index != input.length; short_index++,byte_index += 2 )
+		{
+			buffer[byte_index]     = (byte) (input[short_index] & 0x00FF); 
+			buffer[byte_index + 1] = (byte) ((input[short_index] & 0xFF00) >> 8);
+		}
+		return buffer;
+	}
+}
